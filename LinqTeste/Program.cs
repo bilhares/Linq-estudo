@@ -74,6 +74,39 @@ namespace LinqTeste
             var r8 = products.Where(p => p.Id == 3).SingleOrDefault();
             Console.WriteLine("Single or default: " + r8);
 
+            var r9 = products.Max(p => p.Price);
+            Console.WriteLine("Max price: " + r9);
+            
+            var r10 = products.Min(p => p.Price);
+            Console.WriteLine("Min price: " + r10);
+
+            //soma dos precos de uma categoria especifica
+            var r11 = products.Where(p => p.Category.Id == 2).Sum(p => p.Price);
+            Console.WriteLine("Sum prices:" + r11);
+
+            //media dos precos de uma categoria especifica
+            var r12 =  products.Where(p => p.Category.Id == 2).Average(p => p.Price);
+            Console.WriteLine("Media dos precos:" + r12);
+
+            var r13 = products.Where(p => p.Category.Id == 5).Select(p => p.Price).DefaultIfEmpty(0.0).Average();
+            Console.WriteLine("Media dos precos em caso de nulo: "+ r13);
+
+            var r14 = products.Where(p => p.Category.Id == 2).Select(p => p.Price).Aggregate(0.0, (x,y) => x + y);
+            Console.WriteLine("Aggregate manual para soma: "+r14);
+            Console.WriteLine();
+            var r15 = products.GroupBy(p => p.Category);
+
+            foreach(IGrouping<Category, Product> group in r15)
+            {
+                Console.WriteLine("Category: "+group.Key.Name);
+                foreach(Product p in group)
+                {
+                    Console.WriteLine(p);
+                }
+                Console.WriteLine();
+            }
+
+
 
         }
     }
