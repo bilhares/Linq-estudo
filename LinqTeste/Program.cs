@@ -11,9 +11,10 @@ namespace LinqTeste
             int[] numbers = new int[] { 1, 2, 3, 4, 5 };
 
             //consulta
-            System.Collections.Generic.List<int> list = numbers.Where(x => x % 2 == 0).ToList();
+            //busca os pares da fonte de dados e multiplica cada par por 10
+            var result = numbers.Where(x => x % 2 == 0).Select(x => x * 10);
 
-            foreach(int x in list)
+            foreach (int x in result)
             {
                 Console.WriteLine(x);
             }
