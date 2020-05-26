@@ -76,7 +76,7 @@ namespace LinqTeste
 
             var r9 = products.Max(p => p.Price);
             Console.WriteLine("Max price: " + r9);
-            
+
             var r10 = products.Min(p => p.Price);
             Console.WriteLine("Min price: " + r10);
 
@@ -85,29 +85,40 @@ namespace LinqTeste
             Console.WriteLine("Sum prices:" + r11);
 
             //media dos precos de uma categoria especifica
-            var r12 =  products.Where(p => p.Category.Id == 2).Average(p => p.Price);
+            var r12 = products.Where(p => p.Category.Id == 2).Average(p => p.Price);
             Console.WriteLine("Media dos precos:" + r12);
 
             var r13 = products.Where(p => p.Category.Id == 5).Select(p => p.Price).DefaultIfEmpty(0.0).Average();
-            Console.WriteLine("Media dos precos em caso de nulo: "+ r13);
+            Console.WriteLine("Media dos precos em caso de nulo: " + r13);
 
-            var r14 = products.Where(p => p.Category.Id == 2).Select(p => p.Price).Aggregate(0.0, (x,y) => x + y);
-            Console.WriteLine("Aggregate manual para soma: "+r14);
+            var r14 = products.Where(p => p.Category.Id == 2).Select(p => p.Price).Aggregate(0.0, (x, y) => x + y);
+            Console.WriteLine("Aggregate manual para soma: " + r14);
             Console.WriteLine();
             var r15 = products.GroupBy(p => p.Category);
 
-            foreach(IGrouping<Category, Product> group in r15)
+            foreach (IGrouping<Category, Product> group in r15)
             {
-                Console.WriteLine("Category: "+group.Key.Name);
-                foreach(Product p in group)
+                Console.WriteLine("Category: " + group.Key.Name);
+                foreach (Product p in group)
                 {
                     Console.WriteLine(p);
                 }
                 Console.WriteLine();
             }
 
+            // ################################### NOTAÇÃO SQL ##########################################3333
 
+            var r16 = from p in products where p.Category.Tier == 1 && p.Price < 900.0 select p;
+            Print("SQL Tier 1 and price < 900:", r16);
 
+            var r17 = from p in products where p.Category.Name == "Tools" select p.Name;
+            Print("SQL Name of products from TOOLS", r17);
+
+            var r18 = from p in products where p.Name[0] == 'C' select new { p.Name, p.Price, CategoryName = p.Category.Name };
+            Print("SQL Names started with C and anonymous object", r18);
+
+            var r19 = from p in products where p.Category.Tier == 1 orderby p.Name orderby p.Price select p;
+            Print("SQL Tier 1 order by price and name", r19);
         }
     }
 }
