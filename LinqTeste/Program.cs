@@ -119,6 +119,23 @@ namespace LinqTeste
 
             var r19 = from p in products where p.Category.Tier == 1 orderby p.Name orderby p.Price select p;
             Print("SQL Tier 1 order by price and name", r19);
+
+            var r20 = (from p in r19 select p).Skip(2).Take(4);
+            Print("SQL Tier 1 order by price and name skip 2 and take 4 ", r20);
+
+
+            var r21 = from p in products group p by p.Category;
+
+            foreach (IGrouping<Category, Product> group in r21)
+            {
+                Console.WriteLine("Category: " + group.Key.Name);
+                foreach (Product p in group)
+                {
+                    Console.WriteLine(p);
+                }
+                Console.WriteLine();
+            }
+
         }
     }
 }
